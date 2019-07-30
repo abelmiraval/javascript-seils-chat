@@ -1,0 +1,4 @@
+
+Una sala puede tener un perfil o una sola informacion y el pefil solo puede  pertecenecer a una sala 1-1
+Una sala puede tener muchos mensajes pero el mensaje solo puede pertenecer a una sala 1-M
+Una sala puede tener muchos stickers a su vez que un sticker puede pertenecer a muchas salas M-M

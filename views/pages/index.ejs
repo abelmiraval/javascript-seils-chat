@@ -1,0 +1,160 @@
+<style>
+  .frame-chat {
+    min-height: 58vh;
+  }
+
+  .frame-box {
+    min-height: 30em;
+  }
+</style>
+
+<div id="app" class="columns is-multiline is-centered">
+  <!--Room  -->
+  <div class="column is-3-desktop is-12-mobile">
+    <div class="card frame-chart">
+      <div class="card-content">
+        <h2 class="tag is-success is-size-4 has-text-weight-bold">Salas</h2>
+        <hr />
+        <button class="button is-info is-medium" @click="isModalActive = true">
+          Crear Sala
+        </button>
+        <hr />
+        <div
+          class="media"
+          v-for="(chat, index) of chats"
+          :key="`chat_${index}`"
+        >
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img :src="chat.image" alt="image" class="is-rounded" />
+            </figure>
+          </div>
+
+          <div class="media-content">
+            <p class="title is-4">{{ chat.name }}</p>
+            <p class="subtitle is-6">{{ chat.created_at }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chats -->
+
+  <div class="column is-9-desktop is-12-mobile">
+    <div class="card frame-chart">
+      <div class="card-content">
+        <h2 class="tag is-success is-size-4 has-text-weight-bold">Salas</h2>
+        <hr />
+        <!-- Caja de comentario -->
+        <div class="frame-box">
+          <!-- Comentarios -->
+          <div v-for="(message, index) of messages" ::key="`message-${index}`">
+            <span
+              class="tag is-medium"
+              :class="{'is-pulled-right': (message.user_id == user_id) ,
+             'is-pulled-left': (message.user_id != user_id), 'is-info' : (message.user_id == user_id),
+             'is-success' : (message.user_id != user_id)}"
+              >{{ message.text }}</span
+            >
+            <br />
+            <br />
+          </div>
+        </div>
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <input
+              v-model="text"
+              class="input"
+              type="text"
+              placeholder="Escribe aqui"
+              @keydown.enter="sendMessage"
+            />
+          </div>
+          <div class="control">
+            <button class="button is-info" @click="sendMessage">
+              Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" :class="{'is-active' : isModalActive}">
+    <div class="modal-background" @click="isModalActive = false"></div>
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-content">
+          <form>
+            <div class="field">
+              <label for="" class="label">Nombre</label>
+              <div class="control">
+                <input
+		  v-model="name"
+                  type="text"
+                  class="input"
+                  placeholder="Nombre interesante"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      @click="isModalActive = false"
+    ></button>
+  </div>
+</div>
+
+<script>
+  const vue = new Vue({
+    el: "#app",
+    data: function() {
+      return {
+        //Tools - modals
+        isModalActive: false,
+
+        //CRUD Room
+        name: "",
+        description: "",
+        image: "",
+        topic: "",
+        //Chat
+        user_id: 0,
+        text: "",
+        chats: [
+          {
+            name: "Sala de juegos 1",
+            image: "http://lorempixel.com/400/400 ",
+            created_at: new Date()
+          },
+          {
+            name: "Sala de juegos 2",
+            image: "http://lorempixel.com/400/400 ",
+            created_at: new Date()
+          }
+        ],
+        messages: [
+          { text: "Hola mundo", user_id: 1 },
+          { text: "Hola mundo 1", user_id: 0 },
+          { text: "Hola mundo 2", user_id: 0 }
+        ]
+      };
+    },
+    methods: {
+      //mmethods
+      sendMessage() {
+        this.messages.push({
+          text: this.text,
+          user_id: this.user_id
+        });
+        this.text = "";
+      }
+    }
+  });
+</script>

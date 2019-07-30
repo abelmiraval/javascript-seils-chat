@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini Chat</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
+    />
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/importer.css" />
+    <!--STYLES END-->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+  </head>
+
+  <body>
+    <div class="columns is-mobile is-centered has-background-primary">
+      <div class="column is-10">
+        <div class="navbar-brand">
+          <div class="is-size-3 has-text-white has-text-weight-bold">
+            @_minichat
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-mobile is-centered has-background-gray">
+      <div class="column is-10">
+        <%- body %>
+      </div>
+    </div>
+
+    <!--SCRIPTS-->
+    <script src="/dependencies/sails.io.js"></script>
+    <!--SCRIPTS END-->
+  </body>
+</html>
