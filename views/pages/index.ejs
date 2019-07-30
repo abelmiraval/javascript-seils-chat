@@ -146,6 +146,7 @@
     created() {
       //arrow function utiliza el scope de la funcion
       this.fetch();
+      this.user_id = new Date().getTime() + '';
       let interval = setInterval(this.poolingChat, 1000);
 
     },
@@ -188,10 +189,30 @@
           })
       },
       sendMessage() {
-        this.messages.push({
+        // this.messages.push({
+        //   text: this.text,
+        //   user_id: this.user_id
+        // });
+
+        if (this.currentChatId == undefined) {
+          alert('seleccione un chat');
+          return
+        }
+
+        let dataMessage = {
           text: this.text,
           user_id: this.user_id
-        });
+        }
+
+        axios.post(`/rooms/${this.currentChatId}/messages`, dataMessage)
+          .then((res) => {
+            console.log('Elemento creado')
+            this.text = "";
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+
         this.text = "";
       },
       deleteRoom(id) {

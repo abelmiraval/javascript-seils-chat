@@ -25,6 +25,7 @@ module.exports = {
     let room_id = req.params.room_id;
     let data = {
       text: req.body.text,
+      user_id: req.body.user_id,
       //FK
       owner: room_id
     };
