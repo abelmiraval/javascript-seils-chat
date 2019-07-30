@@ -29,6 +29,7 @@
           <div class="media-content">
             <p class="title is-4">{{ chat.name }}</p>
             <p class="subtitle is-6">{{ chat.created_at }}</p>
+            <button class="button is-small is-danger" @click="deleteRoom(chat.id)">Delete</button>
           </div>
         </div>
       </div>
@@ -173,6 +174,18 @@
           user_id: this.user_id
         });
         this.text = "";
+      },
+      deleteRoom(id) {
+
+        let confirmation = confirm();
+        if (confirmation) {
+
+          axios.delete(`/rooms/${id}`)
+            .then(() => {
+              this.fetch();
+            })
+        }
+
       },
       createRoom() {
 
