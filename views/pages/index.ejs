@@ -95,7 +95,6 @@
                     <option value="random">random</option>
                     <option value="magic">magic</option>
                     <option value="code">code</option>
-                    <option value="food">food</option>
                     <option value="games">games</option>
                   </select>
                 </div>
@@ -144,28 +143,30 @@
     },
     created() {
       //arrow function utiliza el scope de la funcion
-
-
-      axios.get('/rooms')
-        .then((response) => {
-          //handle success
-          console.log(response.data);
-          this.chats = response.data.map(chat => {
-            return {
-              id: chat.id,
-              name: chat.name,
-              image: chat.information.pop().image,
-              created_at: chat.createdAt
-            }
-          });
-        })
-        .catch(function (error) {
-          //handle error
-          console.log(error);
-        })
+      this.fetch();
     },
     methods: {
       //mmethods
+
+      fetch() {
+        axios.get('/rooms')
+          .then((response) => {
+            //handle success
+            console.log(response.data);
+            this.chats = response.data.map(chat => {
+              return {
+                id: chat.id,
+                name: chat.name,
+                image: chat.information.length > 0 ? chat.information.pop().image : "none.jpg",
+                created_at: chat.createdAt
+              }
+            });
+          })
+          .catch(function (error) {
+            //handle error
+            console.log(error);
+          })
+      },
       sendMessage() {
         this.messages.push({
           text: this.text,
@@ -175,6 +176,32 @@
       },
       createRoom() {
 
+        //crear sala
+        let dataRoom = {
+          name: this.name
+        }
+        axios.post('/rooms', dataRoom)
+          .then((res) => {
+            let room_id = res.data.id;
+            //crear informacion
+            let dataInfo = {
+              description: this.description,
+              image: this.image,
+              topic: this.topic
+            }
+            axios.post(`/rooms/{$room_id}/informations`, dataInfo)
+              .then(() => {
+                //crear informacion
+                this.isModalActive = false;
+                this.fetch();
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          })
+          .catch((err) => {
+            console.log(err);
+          })
       }
     }
   });
