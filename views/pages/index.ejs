@@ -134,24 +134,35 @@
         //Chat
         user_id: 0,
         text: "",
-        chats: [
-          {
-            name: "Sala de juegos 1",
-            image: "http://lorempixel.com/400/400 ",
-            created_at: new Date()
-          },
-          {
-            name: "Sala de juegos 2",
-            image: "http://lorempixel.com/400/400 ",
-            created_at: new Date()
-          }
-        ],
+        chats: [],
         messages: [
           { text: "Hola mundo", user_id: 1 },
           { text: "Hola mundo 1", user_id: 0 },
           { text: "Hola mundo 2", user_id: 0 }
         ]
       };
+    },
+    created() {
+      //arrow function utiliza el scope de la funcion
+
+
+      axios.get('/rooms')
+        .then((response) => {
+          //handle success
+          console.log(response.data);
+          this.chats = response.data.map(chat => {
+            return {
+              id: chat.id,
+              name: chat.name,
+              image: chat.information.pop().image,
+              created_at: chat.createdAt
+            }
+          });
+        })
+        .catch(function (error) {
+          //handle error
+          console.log(error);
+        })
     },
     methods: {
       //mmethods
