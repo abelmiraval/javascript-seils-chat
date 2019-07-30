@@ -6,7 +6,21 @@
  */
 
 module.exports = {
-  store: async function(req, res) {
+
+  list: async function (req, res) {
+    let room_id = req.params.room_id;
+    let messages = {};
+
+    //Obtener informacion de DB
+    let room = await room.findOne({ id: room_id })
+      .populate('messages');
+
+    messages = room.messages;
+
+    return res.json(messages)
+  },
+
+  store: async function (req, res) {
     //Logica
     let room_id = req.params.room_id;
     let data = {

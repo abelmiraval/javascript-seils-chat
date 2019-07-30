@@ -35,6 +35,8 @@ module.exports.routes = {
 
   //Messages
   "POST /rooms/:room_id/messages": "MessageController.store",
+  "GET /rooms/:room_id/messages": "MessageController.list",
+
 
   //Sticker
   "GET /stickers": "StickerController.list",

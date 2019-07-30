@@ -27,7 +27,8 @@
           </div>
 
           <div class="media-content">
-            <p class="title is-4">{{ chat.name }}</p>
+            <a class="title is-4" @click="selectChat(chat.id)">{{ chat.name }}</a>
+            <br>
             <p class="subtitle is-6">{{ chat.created_at }}</p>
             <button class="button is-small is-danger" @click="deleteRoom(chat.id)">Delete</button>
           </div>
@@ -44,7 +45,7 @@
         <h2 class="tag is-success is-size-4 has-text-weight-bold">Salas</h2>
         <hr />
         <!-- Caja de comentario -->
-        <div class="frame-box">
+        <div class="frame-box" v-if="currentChatId !== undefined">
           <!-- Comentarios -->
           <div v-for="(message, index) of messages" ::key="`message-${index}`">
             <span class="tag is-medium" :class="{'is-pulled-right': (message.user_id == user_id) ,
@@ -54,7 +55,10 @@
             <br />
           </div>
         </div>
-        <div class="field has-addons">
+        <div v-else>
+          <p class="is-size-3 has-text-info">Selecciona una sala</p>
+        </div>
+        <div class="field has-addons" v-if="currentChatId !== undefined">
           <div class="control is-expanded">
             <input v-model="text" class="input" type="text" placeholder="Escribe aqui" @keydown.enter="sendMessage" />
           </div>
@@ -124,7 +128,8 @@
       return {
         //Tools - modals
         isModalActive: false,
-
+        //Info chat
+        currentChatId = undefined,
         //CRUD Room
         name: "",
         description: "",
@@ -135,20 +140,34 @@
         user_id: 0,
         text: "",
         chats: [],
-        messages: [
-          { text: "Hola mundo", user_id: 1 },
-          { text: "Hola mundo 1", user_id: 0 },
-          { text: "Hola mundo 2", user_id: 0 }
-        ]
+        messages: []
       };
     },
     created() {
       //arrow function utiliza el scope de la funcion
       this.fetch();
+      let interval = setInterval(this.poolingChat, 1000);
+
     },
     methods: {
       //mmethods
 
+      selectChat(chat_id) {
+        this.currentChatId = chat_id;
+      },
+      poolingChat() {
+        console.log('pulse <3');
+        if (this.currentChatId !== undefined) {
+          axios.get(`/rooms/${this.currentChatId}/messages`)
+            .then((result) => {
+              console.log(result);
+              this.messages = result.data;
+            })
+            .catch(err => {
+              console.log(err);
+            })
+        }
+      },
       fetch() {
         axios.get('/rooms')
           .then((response) => {
@@ -177,7 +196,7 @@
       },
       deleteRoom(id) {
 
-        let confirmation = confirm();
+        let confirmation = confirm("Deseas eliminar la sala");
         if (confirmation) {
 
           axios.delete(`/rooms/${id}`)

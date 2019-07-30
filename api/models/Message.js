@@ -12,6 +12,10 @@ module.exports = {
       allowNull: false,
       required: true
     },
+    user_id: {
+      type: "string",
+      defaultTo: 0
+    },
     owner: {
       model: "room"
       //No se especifica que sea unico para permitir agregar mas entidades de este tipo
