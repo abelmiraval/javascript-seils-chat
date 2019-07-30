@@ -19,11 +19,7 @@
           Crear Sala
         </button>
         <hr />
-        <div
-          class="media"
-          v-for="(chat, index) of chats"
-          :key="`chat_${index}`"
-        >
+        <div class="media" v-for="(chat, index) of chats" :key="`chat_${index}`">
           <div class="media-left">
             <figure class="image is-48x48">
               <img :src="chat.image" alt="image" class="is-rounded" />
@@ -50,26 +46,16 @@
         <div class="frame-box">
           <!-- Comentarios -->
           <div v-for="(message, index) of messages" ::key="`message-${index}`">
-            <span
-              class="tag is-medium"
-              :class="{'is-pulled-right': (message.user_id == user_id) ,
+            <span class="tag is-medium" :class="{'is-pulled-right': (message.user_id == user_id) ,
              'is-pulled-left': (message.user_id != user_id), 'is-info' : (message.user_id == user_id),
-             'is-success' : (message.user_id != user_id)}"
-              >{{ message.text }}</span
-            >
+             'is-success' : (message.user_id != user_id)}">{{ message.text }}</span>
             <br />
             <br />
           </div>
         </div>
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input
-              v-model="text"
-              class="input"
-              type="text"
-              placeholder="Escribe aqui"
-              @keydown.enter="sendMessage"
-            />
+            <input v-model="text" class="input" type="text" placeholder="Escribe aqui" @keydown.enter="sendMessage" />
           </div>
           <div class="control">
             <button class="button is-info" @click="sendMessage">
@@ -86,35 +72,55 @@
     <div class="modal-content">
       <div class="card">
         <div class="card-content">
-          <form>
+          <form @submit.prevent="createRoom">
             <div class="field">
               <label for="" class="label">Nombre</label>
               <div class="control">
-                <input
-		  v-model="name"
-                  type="text"
-                  class="input"
-                  placeholder="Nombre interesante"
-                />
+                <input v-model="name" type="text" class="input" placeholder="Nombre interesante" />
               </div>
             </div>
+            <div class="field">
+              <label for="" class="label">Descripcion</label>
+              <div class="control">
+                <input v-model="descripcion" type="text" class="input" placeholder="Descripcion interesante" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="" class="label">Tematica</label>
+              <div class="control">
+                <div class="select">
+                  <select name="" id="" v-model="topic">
+                    <option value="">Selecciona una tematica</option>
+                    <option value="random">random</option>
+                    <option value="magic">magic</option>
+                    <option value="code">code</option>
+                    <option value="food">food</option>
+                    <option value="games">games</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <button class="button is-info">Crear Sala</button>
+              </div>
+            </div>
+
           </form>
         </div>
       </div>
     </div>
 
-    <button
-      class="modal-close is-large"
-      aria-label="close"
-      @click="isModalActive = false"
-    ></button>
+    <button class="modal-close is-large" aria-label="close" @click="isModalActive = false"></button>
   </div>
 </div>
 
 <script>
   const vue = new Vue({
     el: "#app",
-    data: function() {
+    data: function () {
       return {
         //Tools - modals
         isModalActive: false,
@@ -123,7 +129,8 @@
         name: "",
         description: "",
         image: "",
-        topic: "",
+        topic: "", //['random','magic','games','code']
+        room_id: "",
         //Chat
         user_id: 0,
         text: "",
@@ -154,6 +161,9 @@
           user_id: this.user_id
         });
         this.text = "";
+      },
+      createRoom() {
+
       }
     }
   });
