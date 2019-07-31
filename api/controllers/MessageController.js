@@ -32,6 +32,10 @@ module.exports = {
 
     await Message.create(data);
 
+    //Decir que algo ha cambiado a todos los clientes
+    //blast es un metodo que nos permite hacer un broadcast  a todos los clientes que se han suscrito al canal
+    sails.sockets.blast({ room: room_id });
+
     return res.status(201).json({ message: "Elemento creado" });
   }
 };

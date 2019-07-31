@@ -4,7 +4,8 @@
   }
 
   .frame-box {
-    min-height: 30em;
+    height: 30em;
+    overflow-y: scroll;
   }
 </style>
 
@@ -56,7 +57,7 @@
         <h2 class="tag is-success is-size-4 has-text-weight-bold">Salas</h2>
         <hr />
         <!-- Caja de comentario -->
-        <div class="frame-box" v-if="currentChatId !== undefined">
+        <div id="chat-app" class="frame-box" v-if="currentChatId !== undefined">
           <!-- Comentarios -->
           <div v-for="(message, index) of messages" ::key="`message-${index}`">
             <span
@@ -155,6 +156,7 @@
   </div>
 </div>
 
+<script src="dependencies/sails.io.js"></script>
 <script>
   const vue = new Vue({
     el: "#app",
@@ -181,15 +183,30 @@
       //arrow function utiliza el scope de la funcion
       this.fetch();
       this.user_id = new Date().getTime() + "";
-      let interval = setInterval(this.poolingChat, 1000);
+      // let interval = setInterval(this.poolingChat, 1000);
+      this.setSocket();
     },
     methods: {
       //mmethods
+      setSocket() {
+        let _ = this;
+        //set socket nos va permitir configuar todo lo relacionado a socket
+        //Cuando un cliente crea un mensaje el servidor se entera y al enterarse debe notificar a los clientes
+        //socket on define un evento o el cliente se suscribe a ese evento y esta escuchando con el servidor que emite ese evento
+        io.socket.on("message", data => {
+          console.log("Tomorrowland");
+
+          if (data.room == this.currentChatId) {
+            _.getChat();
+          }
+        });
+      },
 
       selectChat(chat_id) {
         this.currentChatId = chat_id;
+        this.getChat();
       },
-      poolingChat() {
+      getChat() {
         console.log("pulse <3");
         if (this.currentChatId !== undefined) {
           axios
@@ -197,6 +214,12 @@
             .then(result => {
               console.log(result);
               this.messages = result.data;
+              //Alinear  scroll de aplicacion
+              let element = document.getElementById("chat-app");
+
+              setTimeout(() => {
+                element.scrollTop = element.scrollHeight;
+              }, 300);
             })
             .catch(err => {
               console.log(err);
