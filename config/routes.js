@@ -26,6 +26,7 @@ module.exports.routes = {
   //Room
   "GET /rooms": "RoomController.list",
   "GET /rooms/:id": "RoomController.show",
+
   "PUT /rooms/:id": "RoomController.update",
   "POST /rooms": "RoomController.store",
   "DELETE /rooms/:id": "RoomController.destroy",
@@ -36,7 +37,6 @@ module.exports.routes = {
   //Messages
   "POST /rooms/:room_id/messages": "MessageController.store",
   "GET /rooms/:room_id/messages": "MessageController.list",
-
 
   //Sticker
   "GET /stickers": "StickerController.list",

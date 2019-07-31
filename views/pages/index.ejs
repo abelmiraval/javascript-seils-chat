@@ -19,7 +19,11 @@
           Crear Sala
         </button>
         <hr />
-        <div class="media" v-for="(chat, index) of chats" :key="`chat_${index}`">
+        <div
+          class="media"
+          v-for="(chat, index) of chats"
+          :key="`chat_${index}`"
+        >
           <div class="media-left">
             <figure class="image is-48x48">
               <img :src="chat.image" alt="image" class="is-rounded" />
@@ -27,10 +31,17 @@
           </div>
 
           <div class="media-content">
-            <a class="title is-4" @click="selectChat(chat.id)">{{ chat.name }}</a>
-            <br>
+            <a class="title is-4" @click="selectChat(chat.id)"
+              >{{ chat.id }} - {{ chat.name }}</a
+            >
+            <br />
             <p class="subtitle is-6">{{ chat.created_at }}</p>
-            <button class="button is-small is-danger" @click="deleteRoom(chat.id)">Delete</button>
+            <button
+              class="button is-small is-danger"
+              @click="deleteRoom(chat.id)"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
@@ -48,9 +59,13 @@
         <div class="frame-box" v-if="currentChatId !== undefined">
           <!-- Comentarios -->
           <div v-for="(message, index) of messages" ::key="`message-${index}`">
-            <span class="tag is-medium" :class="{'is-pulled-right': (message.user_id == user_id) ,
+            <span
+              class="tag is-medium"
+              :class="{'is-pulled-right': (message.user_id == user_id) ,
              'is-pulled-left': (message.user_id != user_id), 'is-info' : (message.user_id == user_id),
-             'is-success' : (message.user_id != user_id)}">{{ message.text }}</span>
+             'is-success' : (message.user_id != user_id)}"
+              >{{ message.text }}</span
+            >
             <br />
             <br />
           </div>
@@ -60,7 +75,13 @@
         </div>
         <div class="field has-addons" v-if="currentChatId !== undefined">
           <div class="control is-expanded">
-            <input v-model="text" class="input" type="text" placeholder="Escribe aqui" @keydown.enter="sendMessage" />
+            <input
+              v-model="text"
+              class="input"
+              type="text"
+              placeholder="Escribe aqui"
+              @keydown.enter="sendMessage"
+            />
           </div>
           <div class="control">
             <button class="button is-info" @click="sendMessage">
@@ -81,13 +102,23 @@
             <div class="field">
               <label for="" class="label">Nombre</label>
               <div class="control">
-                <input v-model="name" type="text" class="input" placeholder="Nombre interesante" />
+                <input
+                  v-model="name"
+                  type="text"
+                  class="input"
+                  placeholder="Nombre interesante"
+                />
               </div>
             </div>
             <div class="field">
               <label for="" class="label">Descripcion</label>
               <div class="control">
-                <input v-model="descripcion" type="text" class="input" placeholder="Descripcion interesante" />
+                <input
+                  v-model="description"
+                  type="text"
+                  class="input"
+                  placeholder="Descripcion interesante"
+                />
               </div>
             </div>
 
@@ -111,25 +142,28 @@
                 <button class="button is-info">Crear Sala</button>
               </div>
             </div>
-
           </form>
         </div>
       </div>
     </div>
 
-    <button class="modal-close is-large" aria-label="close" @click="isModalActive = false"></button>
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      @click="isModalActive = false"
+    ></button>
   </div>
 </div>
 
 <script>
   const vue = new Vue({
     el: "#app",
-    data: function () {
+    data: function() {
       return {
         //Tools - modals
         isModalActive: false,
         //Info chat
-        currentChatId = undefined,
+        currentChatId: undefined,
         //CRUD Room
         name: "",
         description: "",
@@ -146,9 +180,8 @@
     created() {
       //arrow function utiliza el scope de la funcion
       this.fetch();
-      this.user_id = new Date().getTime() + '';
+      this.user_id = new Date().getTime() + "";
       let interval = setInterval(this.poolingChat, 1000);
-
     },
     methods: {
       //mmethods
@@ -157,36 +190,41 @@
         this.currentChatId = chat_id;
       },
       poolingChat() {
-        console.log('pulse <3');
+        console.log("pulse <3");
         if (this.currentChatId !== undefined) {
-          axios.get(`/rooms/${this.currentChatId}/messages`)
-            .then((result) => {
+          axios
+            .get(`/rooms/${this.currentChatId}/messages`)
+            .then(result => {
               console.log(result);
               this.messages = result.data;
             })
             .catch(err => {
               console.log(err);
-            })
+            });
         }
       },
       fetch() {
-        axios.get('/rooms')
-          .then((response) => {
+        axios
+          .get("/rooms")
+          .then(response => {
             //handle success
             console.log(response.data);
             this.chats = response.data.map(chat => {
               return {
                 id: chat.id,
                 name: chat.name,
-                image: chat.information.length > 0 ? chat.information.pop().image : "none.jpg",
+                image:
+                  chat.information.length > 0
+                    ? chat.information.pop().image
+                    : "none.jpg",
                 created_at: chat.createdAt
-              }
+              };
             });
           })
-          .catch(function (error) {
+          .catch(function(error) {
             //handle error
             console.log(error);
-          })
+          });
       },
       sendMessage() {
         // this.messages.push({
@@ -195,66 +233,64 @@
         // });
 
         if (this.currentChatId == undefined) {
-          alert('seleccione un chat');
-          return
+          alert("seleccione un chat");
+          return;
         }
 
         let dataMessage = {
           text: this.text,
           user_id: this.user_id
-        }
+        };
 
-        axios.post(`/rooms/${this.currentChatId}/messages`, dataMessage)
-          .then((res) => {
-            console.log('Elemento creado')
+        axios
+          .post(`/rooms/${this.currentChatId}/messages`, dataMessage)
+          .then(res => {
+            console.log("Elemento creado");
             this.text = "";
           })
-          .catch((err) => {
-            console.log(err)
-          })
+          .catch(err => {
+            console.log(err);
+          });
 
         this.text = "";
       },
       deleteRoom(id) {
-
         let confirmation = confirm("Deseas eliminar la sala");
         if (confirmation) {
-
-          axios.delete(`/rooms/${id}`)
-            .then(() => {
-              this.fetch();
-            })
+          axios.delete(`/rooms/${id}`).then(() => {
+            this.fetch();
+          });
         }
-
       },
       createRoom() {
-
         //crear sala
         let dataRoom = {
           name: this.name
-        }
-        axios.post('/rooms', dataRoom)
-          .then((res) => {
+        };
+        axios
+          .post("/rooms", dataRoom)
+          .then(res => {
             let room_id = res.data.id;
             //crear informacion
             let dataInfo = {
               description: this.description,
               image: this.image,
               topic: this.topic
-            }
-            axios.post(`/rooms/{$room_id}/informations`, dataInfo)
+            };
+            axios
+              .post(`/rooms/${room_id}/informations`, dataInfo)
               .then(() => {
                 //crear informacion
                 this.isModalActive = false;
                 this.fetch();
               })
-              .catch((err) => {
+              .catch(err => {
                 console.log(err);
-              })
+              });
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
-          })
+          });
       }
     }
   });

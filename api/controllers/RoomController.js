@@ -44,6 +44,7 @@ module.exports = {
 
     return res.status(201).json(room);
   },
+
   update: async function(req, res) {
     let id = req.params.id;
     let data = {
@@ -53,6 +54,7 @@ module.exports = {
 
     return res.json(room);
   },
+
   destroy: async function(req, res) {
     let id = req.params.id;
     let room = await Room.destroyOne({ id: id });

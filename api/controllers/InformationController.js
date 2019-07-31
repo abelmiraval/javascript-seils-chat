@@ -9,6 +9,7 @@ module.exports = {
   store: async function(req, res) {
     //Logica
     let room_id = req.params.room_id;
+
     let data = {
       description: req.body.description,
       image: req.body.image,

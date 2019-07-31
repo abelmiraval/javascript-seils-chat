@@ -14,7 +14,7 @@ module.exports = {
     },
     user_id: {
       type: "string",
-      defaultTo: 0
+      defaultsTo: "0"
     },
     owner: {
       model: "room"
