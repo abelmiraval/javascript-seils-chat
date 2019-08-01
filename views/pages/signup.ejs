@@ -1,80 +1,88 @@
 <style>
-    .center-card {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  .center-card {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    full-width {
-        min-height: 100%;
-    }
+  .full-width {
+    min-width: 100%;
+  }
 </style>
 
 <div id="app" class="columns is-multiline is-centered">
-    <!--Room  -->
-    <div class="column is-5-desktop is-12-mobile center-card ">
-        <div class="card full-width">
-            <div class="card-content">
-                <h2 class="tag is-success is-size-4 has-text-weight-bold">Salas</h2>
-                <hr />
-                <div class="content">
-
-                    <div class="field">
-                        <label for="username" class="label">Nickname</label>
-                        <div class="control">
-                            <input v-model="nick" type="text" class="input" placeholder="...">
-                        </div>
-                    </div>
-
-
-                    <form @aubmit.event="send">
-                        <div class="field">
-                            <label for="correo" class="label">Email</label>
-                            <div class="control">
-                                <input v-model="email" type="email" class="input" placeholder="example@gmail.com">
-                            </div>
-                        </div>
-
-
-                        <div class="field">
-                            <label for="password" class="">Password</label>
-                            <div class="control">
-                                <input v-model="password" type="password" class="input" placeholder="You password">
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="control">
-                                <button class="button is-info">Enviar</button>
-                            </div>
-                        </div>
-                    </form>
-                    <br>
-                    <span>Tienes cuenta</span>
-                    <a href="/">Incia Sesion</a>
-                </div>
+  <div class="column is-5-desktop is-12-mobile center-card ">
+    <div class="card full-width">
+      <div class="card-content">
+        <h2 class="tag is-success is-size-4 has-text-weight-bold">
+          Registrate
+        </h2>
+        <hr />
+        <div class="content">
+          <form @submit.event="send">
+            <div class="field">
+              <label for="username" class="label">Nickname</label>
+              <div class="control">
+                <input
+                  v-model="nick"
+                  type="text"
+                  class="input"
+                  placeholder="..."
+                />
+              </div>
             </div>
+            <div class="field">
+              <label for="correo" class="label">Email</label>
+              <div class="control">
+                <input
+                  v-model="email"
+                  type="email"
+                  class="input"
+                  placeholder="example@gmail.com"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="password" class="label">Password</label>
+              <div class="control">
+                <input
+                  v-model="password"
+                  type="password"
+                  class="input"
+                  placeholder="You password"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <button class="button is-info">Enviar</button>
+              </div>
+            </div>
+          </form>
+          <br />
+          <span>Tienes cuenta</span>
+          <a href="/">Inicia Sesion</a>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-
 <script>
-    const vue = new Vue({
-        el: "#app",
-        data() {
-            return {
-                nick: "",
-                email: "",
-                password: ""
-            }
-        },
-        methods: {
-            send() {
-
-            }
-        }
-
-    });
+  const vue = new Vue({
+    el: "#app",
+    data() {
+      return {
+        nick: "",
+        email: "",
+        password: ""
+      };
+    },
+    methods: {
+      send() {}
+    }
+  });
 </script>
