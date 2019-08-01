@@ -6,7 +6,16 @@
  */
 
 module.exports = {
-  home: function(req, res) {
-    res.view("pages/index");
+  home: function (req, res) {
+    res.view("pages/home ");
+  },
+
+  login: function (req, res) {
+    res.view("pages/login")
+  },
+
+  signup: function (req, res) {
+    res.view("pages/signup")
   }
+
 };

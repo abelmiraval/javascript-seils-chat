@@ -1,0 +1,73 @@
+<style>
+    .center-card {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    full-width {
+        min-height: 100%;
+    }
+</style>
+
+<div id="app" class="columns is-multiline is-centered">
+    <!--Room  -->
+    <div class="column is-5-desktop is-12-mobile center-card ">
+        <div class="card full-width">
+            <div class="card-content">
+                <h2 class="tag is-success is-size-4 has-text-weight-bold">Salas</h2>
+                <hr />
+                <div class="content">
+                    <h2 class="tag is-success is-size-4 has-text-weight-bold">Iniciar Sesion</h2>
+                    <hr />
+                    <form @aubmit.event="send">
+                        <div class="field">
+                            <label for="correo" class="label">Email</label>
+                            <div class="control">
+                                <input v-model="email" type="email" class="email" placeholder="example@gmail.com">
+                            </div>
+                        </div>
+
+
+                        <div class="field">
+                            <label for="password" class="">Password</label>
+                            <div class="control">
+                                <input v-model="password" type="password" class="email" placeholder="You password">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-info">Enviar</button>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <span>No tiene cuenta? Registrate</span>
+                    <a href="/signup">Registrate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const vue = new Vue({
+        el: "#app",
+        data() {
+            return {
+                email: "",
+                password: "",
+
+            }
+        },
+        methods: {
+            send() {
+                console.log(this.email, this.password)
+            }
+        }
+
+    });
+</script>

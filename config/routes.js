@@ -21,7 +21,11 @@ module.exports.routes = {
   // "/": { view: "pages/homepage" },
 
   //View
-  "GET /": "ViewController.home",
+  "GET /": "ViewController.login",
+  "GET /home": "ViewController.home",
+  "GET /signup": "ViewController.signup",
+
+
 
   //Room
   "GET /rooms": "RoomController.list",
